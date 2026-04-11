@@ -1,0 +1,99 @@
+{
+  "$schema": "https://github.com/fastfetch-cli/fastfetch/raw/dev/doc/json_schema.json",
+
+  "logo": {
+    "padding": {
+      "top": 2,
+    },
+  },
+
+  "display": {
+    "separator": " -> ",
+    "constants": ["──────────────────────────────"],
+  },
+
+  "modules": [
+    {
+      "type": "custom",
+      "format": "┌{$1}{$1}┐",
+      "outputColor": "90",
+    },
+    {
+      "type": "title",
+      "keyWidth": 10,
+    },
+    {
+      "type": "custom",
+      "format": "└{$1}{$1}┘",
+      "outputColor": "90",
+    },
+    {
+      "type": "custom",
+      "format": " {#90} {#31} {#32} {#33} {#34} {#35} {#36} {#37} {#38} {#39}  {#38} {#37} {#36} {#35} {#34} {#33} {#32} {#31} {#90}",
+    },
+    {
+      "type": "custom",
+      "format": "┌{$1}{$1}┐",
+      "outputColor": "90",
+    },
+
+    {
+      "type": "os",
+      "key": "{icon} OS",
+      "keyColor": "magenta",
+    },
+    {
+      "type": "kernel",
+      "key": "│ ├",
+      "keyColor": "magenta",
+    },
+    {
+      "type": "uptime",
+      "key": "│ ├󰅐",
+      "keyColor": "magenta",
+    },
+    {
+      "type": "shell",
+      "key": "│ └",
+      "keyColor": "magenta",
+    },
+
+    {
+      "type": "host",
+      "key": "󰌢 PC",
+      "keyColor": "cyan",
+    },
+    {
+      "type": "cpu",
+      "key": "│ ├󰻠",
+      "keyColor": "cyan",
+    },
+    {
+      "type": "gpu",
+      "key": "│ ├󰍛",
+      "keyColor": "cyan",
+    },
+    {
+      "type": "memory",
+      "key": "│ ├󰑭",
+      "keyColor": "cyan",
+    },
+    {
+      "type": "disk",
+      "key": "│ └",
+      "keyColor": "cyan",
+    },
+
+    {
+      "type": "terminal",
+      "key": " TERM",
+      "keyColor": "blue",
+    },
+
+    {
+      "type": "custom",
+      "format": "└{$1}{$1}┘",
+      "outputColor": "90",
+    },
+  ],
+}
