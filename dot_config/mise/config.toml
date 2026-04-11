@@ -1,0 +1,45 @@
+[tools]
+bat = "latest"
+bun = "latest"
+java = "latest"
+node = "lts"
+"npm:@mariozechner/pi-coding-agent" = "latest"
+"npm:firebase-tools" = "latest"
+"npm:vercel" = "latest"
+pnpm = "latest"
+python = "latest"
+uv = "latest"
+bottom = "latest"
+chezmoi = "latest"
+codex = "latest"
+duf = "latest"
+dust = "latest"
+eza = "latest"
+fastfetch = "latest"
+fd = "latest"
+fzf = "latest"
+github-cli = "latest"
+gping = "latest"
+jaq = "latest"
+jq = "latest"
+lazygit = "latest"
+opencode = "latest"
+resvg = "latest"
+ripgrep = "latest"
+starship = "latest"
+tlrc = "latest"
+tmux = "latest"
+yazi = "latest"
+zoxide = "latest"
+[settings]
+idiomatic_version_file_enable_tools = ["node", "python", "java"]
+python.uv_venv_auto = "create|source"
+[tasks.setup-tpm]
+run = """
+mkdir -p ~/.tmux/plugins
+if [ ! -d ~/.tmux/plugins/tpm ]; then
+  git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+fi
+"""
+[settings.npm]
+package_manager = "pnpm"
