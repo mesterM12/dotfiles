@@ -1,0 +1,55 @@
+# ~/.zshrc
+eval "$(mise activate zsh)"
+eval "$(starship init zsh)"
+eval "$(zoxide init zsh)"
+# Set up fzf key bindings and fuzzy completion
+source <(fzf --zsh)
+
+autoload -Uz compinit && compinit
+zstyle ':completion:*' menu select
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
+zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
+zstyle ':completion:*:descriptions' format '[%d]'
+
+bindkey -v
+export KEYTIMEOUT=1
+autoload -U up-line-or-beginning-search
+autoload -U down-line-or-beginning-search
+zle -N up-line-or-beginning-search
+zle -N down-line-or-beginning-search
+bindkey '^[[A' up-line-or-beginning-search
+bindkey '^[[B' down-line-or-beginning-search
+bindkey -M viins '^[f' forward-word
+bindkey -M viins '^[b' backward-word
+bindkey -M viins '^[[1;5C' forward-word
+bindkey -M viins '^[[1;5D' backward-word
+# fzf config
+export FZF_DEFAULT_COMMAND='fd --type f --hidden --exclude .git'
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+export FZF_ALT_C_COMMAND='fd --type d --hidden --exclude .git'
+export FZF_DEFAULT_OPTS='
+  --height 50%
+  --layout=reverse
+  --border
+  --preview "if [[ -d {} ]]; then eza --tree --level=2 --icons=always {}; else bat --style=numbers --color=always --line-range=:300 {}; fi"
+'
+function zle-keymap-select {
+  if [[ $KEYMAP == vicmd ]]; then
+    echo -ne '\e[1 q'   # block
+  else
+    echo -ne '\e[5 q'   # beam
+  fi
+}
+zle -N zle-keymap-select
+
+function zle-line-init {
+  echo -ne '\e[5 q'
+}
+zle -N zle-line-init
+
+# aliases & functions
+source ~/.config/zsh/aliases.zsh
+source ~/.config/zsh/functions.zsh
+
+export EDITOR="zed --wait"
+export VISUAL="zed --wait"
