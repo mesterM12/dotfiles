@@ -30,3 +30,13 @@ alias lta='eza --tree --level=3 --all --icons'
 alias cat='bat --paging=never'
 # Modern CLI Replacements
 alias ff='fastfetch'
+#GIT aliases
+alias g='git'
+alias ga='git add'
+alias gc='git commit'
+alias gs='git status'
+alias gp='git push'
+alias gl='git pull'
+alias gf='git fetch'
+alias gd='git diff'
+alias gco='git checkout'

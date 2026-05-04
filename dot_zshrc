@@ -33,6 +33,7 @@ export FZF_DEFAULT_OPTS='
   --border
   --preview "if [[ -d {} ]]; then eza --tree --level=2 --icons=always {}; else bat --style=numbers --color=always --line-range=:300 {}; fi"
 '
+export FZF_CTRL_R_OPTS="--no-preview --preview-window=hidden"
 function zle-keymap-select {
   if [[ $KEYMAP == vicmd ]]; then
     echo -ne '\e[1 q'   # block
@@ -53,3 +54,10 @@ source ~/.config/zsh/functions.zsh
 
 export EDITOR="zed --wait"
 export VISUAL="zed --wait"
+
+
+
+# Auto-start or attach to tmux session "main"
+if [ -z "$TMUX" ]; then
+    "$HOME/.config/tmux/main_layout.sh"
+fi
