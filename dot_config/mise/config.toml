@@ -31,9 +31,15 @@ tlrc = "latest"
 tmux = "latest"
 yazi = "latest"
 zoxide = "latest"
+delta = "latest"
+neovim = "latest"
+postgres = "latest"
+turbo = "2.9.6"
 [settings]
-idiomatic_version_file_enable_tools = ["node", "python", "java"]
-python.uv_venv_auto = "create|source"
+lockfile = true
+pin = true
+idiomatic_version_file_enable_tools = ["node"]
+python.uv_venv_auto = "source"
 [tasks.setup-tpm]
 run = """
 mkdir -p ~/.tmux/plugins

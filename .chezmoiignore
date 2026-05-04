@@ -1,0 +1,13 @@
+# macOS junk
+.DS_Store
+
+# Editor temp files
+*.swp
+*.bak
+
+# Caches / generated
+.cache/
+tmp/
+
+# Large deps (just in case)
+node_modules/

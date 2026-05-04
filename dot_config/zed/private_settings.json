@@ -1,11 +1,3 @@
-// Zed settings
-//
-// For information on how to configure Zed, see the Zed
-// documentation: https://zed.dev/docs/configuring-zed
-//
-// To see all of Zed's default settings without changing your
-// custom settings, run `zed: open default settings` from the
-// command palette (cmd-shift-p / ctrl-shift-p)
 {
   "icon_theme": "Catppuccin Macchiato",
   "ui_font_size": 16,
@@ -13,7 +5,7 @@
   "theme": {
     "mode": "dark",
     "light": "Monokai Night",
-    "dark": "Monokai Night",
+    "dark": "Monokai Night"
   },
   "format_on_save": "on",
   "vim_mode": true,
@@ -22,17 +14,16 @@
   "buffer_font_features": {
     "liga": true,
     "calt": true,
-    "clig": true,
+    "clig": true
   },
   "ui_font_features": {
     "liga": true,
     "calt": true,
-    "clig": true,
+    "clig": true
   },
   "edit_predictions": {
-    "provider": "zed",
+    "provider": "zed"
   },
-  "base_keymap": "VSCode",
   "cursor_blink": false,
   "relative_line_numbers": "wrapped",
   "cursor_shape": "block",
@@ -46,30 +37,34 @@
   "tabs": {
     "git_status": true,
     "file_icons": true,
-    "show_diagnostics": "errors",
+    "show_diagnostics": "errors"
   },
   "tab_bar": {
     "show": true,
     "show_nav_history_buttons": true,
-    "show_tab_bar_buttons": true,
+    "show_tab_bar_buttons": true
+  },
+  "collaboration_panel": {
+    "dock": "left",
+    "button": false
   },
   "indent_guides": {
     "enabled": true,
-    "coloring": "indent_aware",
+    "coloring": "indent_aware"
   },
   "inlay_hints": {
     "enabled": true,
     "show_type_hints": true,
     "show_parameter_hints": true,
     "show_other_hints": true,
-    "show_background": false,
+    "show_background": false
   },
   "gutter": {
     "line_numbers": true,
     "runnables": true,
     "breakpoints": true,
     "folds": true,
-    "min_line_number_digits": 4,
+    "min_line_number_digits": 4
   },
 
   "scrollbar": {
@@ -81,8 +76,8 @@
     "diagnostics": "all",
     "axes": {
       "horizontal": true,
-      "vertical": true,
-    },
+      "vertical": true
+    }
   },
 
   "project_panel": {
@@ -94,21 +89,21 @@
     "sticky_scroll": true,
     "show_diagnostics": "all",
     "indent_guides": {
-      "show": "always",
-    },
+      "show": "always"
+    }
   },
 
   "outline_panel": {
     "button": true,
-    "dock": "left",
+    "dock": "left"
   },
 
   "git_panel": {
     "button": true,
-    "dock": "right",
+    "dock": "left",
     "status_style": "icon",
     "sort_by_path": false,
-    "collapse_untracked_diff": false,
+    "collapse_untracked_diff": false
   },
 
   "terminal": {
@@ -117,34 +112,37 @@
     "font_features": {
       "liga": true,
       "calt": true,
-      "clig": true,
+      "clig": true
     },
     "font_size": 13,
     "line_height": {
-      "custom": 1.25,
+      "custom": 1.25
     },
     "working_directory": "current_project_directory",
     "env": {
-      "GIT_EDITOR": "zed --wait",
+      "GIT_EDITOR": "zed --wait"
     },
     "toolbar": {
-      "breadcrumbs": false,
-    },
+      "breadcrumbs": false
+    }
   },
 
   "bottom_dock_layout": "contained",
 
   "title_bar": {
     "show_branch_name": true,
-    "show_project_items": true,
+    "show_project_items": true
   },
 
   "search_wrap": true,
   "colorize_brackets": true,
   "unnecessary_code_fade": 0.2,
-
+  "agent": {
+    "dock": "right",
+    "button": false
+  },
   "telemetry": {
     "metrics": false,
-    "diagnostics": false,
-  },
+    "diagnostics": false
+  }
 }
