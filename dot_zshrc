@@ -56,8 +56,3 @@ export EDITOR="zed --wait"
 export VISUAL="zed --wait"
 
 
-
-# Auto-start or attach to tmux session "main"
-if [ -z "$TMUX" ]; then
-    "$HOME/.config/tmux/main_layout.sh"
-fi
