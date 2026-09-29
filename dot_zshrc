@@ -52,7 +52,11 @@ zle -N zle-line-init
 source ~/.config/zsh/aliases.zsh
 source ~/.config/zsh/functions.zsh
 
+# Claude's Bun runtime needs this before startup for private gateway DNS on macOS.
+claude() {
+  BUN_FEATURE_FLAG_DISABLE_DNS_CACHE_LIBINFO=1 command claude "$@"
+}
+
 export EDITOR="zed --wait"
 export VISUAL="zed --wait"
-
 
