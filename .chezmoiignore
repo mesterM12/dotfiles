@@ -11,3 +11,6 @@ tmp/
 
 # Large deps (just in case)
 node_modules/
+
+# Repository documentation is not a home-directory dotfile.
+README.md

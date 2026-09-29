@@ -9,8 +9,18 @@
 .env
 *.key
 *.pem
-*.age
+# Age ciphertext is intended to be versioned; identities are never versioned.
+age-identity.txt
+**/age-identity.txt
 *.gpg
 
 # Optional: local overrides
 *.local
+
+# Local credentials and runtime state must never enter this repository.
+# Plaintext secret files remain ignored; encrypted_*.age files are allowed.
+**/auth.json
+**/credentials.json
+**/.credentials.json
+**/hosts.yml
+**/node_modules/

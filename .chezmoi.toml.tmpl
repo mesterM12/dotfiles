@@ -1,0 +1,17 @@
+encryption = "age"
+
+[age]
+identity = {{ joinPath .chezmoi.homeDir ".config/chezmoi/age-identity.txt" | quote }}
+recipient = "age1ypyqw5x49a9v5w74wvljw4e3k4h2ac2quhe75pspdcg4n8vd8gwq0clzsa"
+
+[diff]
+command = "delta"
+args = ["{{ "{{ .Destination }}" }}", "{{ "{{ .Target }}" }}"]
+
+[merge]
+command = "nvim"
+args = ["-d", "{{ "{{ .Destination }}" }}", "{{ "{{ .Source }}" }}", "{{ "{{ .Target }}" }}"]
+
+[edit]
+command = "zed"
+args = ["--wait"]
