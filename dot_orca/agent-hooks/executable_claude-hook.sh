@@ -25,7 +25,7 @@ spool_hook_event() {
   spool_now=$(date +%s 2>/dev/null || printf 0)
   spool_now=$((spool_now * 1000))
   spool_json_escape() { printf %s "$1" | sed 's/\\/\\\\/g; s/"/\\"/g; s/[[:cntrl:]]/ /g'; }
-  { printf '\n{"paneKey":"%s","tabId":"%s","worktreeId":"%s","env":"%s","version":"%s","launchToken":"%s","source":"%s","receivedAt":%s,"payload":%s}\n' "$(spool_json_escape "${ORCA_PANE_KEY:-}")" "$(spool_json_escape "${ORCA_TAB_ID:-}")" "$(spool_json_escape "${ORCA_WORKTREE_ID:-}")" "$(spool_json_escape "${ORCA_AGENT_HOOK_ENV:-}")" "$(spool_json_escape "${ORCA_AGENT_HOOK_VERSION:-}")" "$(spool_json_escape "${ORCA_AGENT_LAUNCH_TOKEN:-}")" "$(spool_json_escape "claude")" "$spool_now" "$payload"; } >> "$spool_file" 2>/dev/null || :
+  { printf '\n{"paneKey":"%s","tabId":"%s","worktreeId":"%s","env":"%s","version":"%s","launchToken":"%s","source":"%s","receivedAt":%s,"agentProcess":"%s","payload":%s}\n' "$(spool_json_escape "${ORCA_PANE_KEY:-}")" "$(spool_json_escape "${ORCA_TAB_ID:-}")" "$(spool_json_escape "${ORCA_WORKTREE_ID:-}")" "$(spool_json_escape "${ORCA_AGENT_HOOK_ENV:-}")" "$(spool_json_escape "${ORCA_AGENT_HOOK_VERSION:-}")" "$(spool_json_escape "${ORCA_AGENT_LAUNCH_TOKEN:-}")" "$(spool_json_escape "claude")" "$spool_now" "$(spool_json_escape "${orca_agent_process:-}")" "$payload"; } >> "$spool_file" 2>/dev/null || :
   chmod 600 "$spool_file" 2>/dev/null || :
 }
 if [ -n "$DEVIN_PROJECT_DIR" ]; then
@@ -34,6 +34,20 @@ fi
 if [ -n "$CLAUDE_JOB_DIR" ]; then
   exit 0
 fi
+orca_agent_process=
+[ -z "${ORCA_PANE_KEY:-}" ] || case "${ORCA_HOOK_AGENT_PID:-}" in ""|*[!0-9]*) ;; *)
+  if [ -r "/proc/$ORCA_HOOK_AGENT_PID/stat" ]; then
+    orca_agent_stat=$(cat "/proc/$ORCA_HOOK_AGENT_PID/stat" 2>/dev/null) || orca_agent_stat=
+    orca_agent_boot=$(cat /proc/sys/kernel/random/boot_id 2>/dev/null) || orca_agent_boot=
+    orca_agent_fields=${orca_agent_stat##*) }
+    orca_agent_start=$(printf "%s" "$orca_agent_fields" | awk '{print $20}')
+    case "$orca_agent_start" in ""|*[!0-9]*) ;; *)
+      [ -z "$orca_agent_boot" ] || orca_agent_process=$(printf '{"pid":%s,"platform":"linux","startTime":"%s:%s"}' "$ORCA_HOOK_AGENT_PID" "$orca_agent_boot" "$orca_agent_start") ;; esac
+  elif [ "$(uname -s 2>/dev/null)" = Darwin ]; then
+    orca_agent_start=$(TZ=UTC0 LC_ALL=C /bin/ps -p "$ORCA_HOOK_AGENT_PID" -o lstart= 2>/dev/null | sed 's/^ *//;s/ *$//')
+    [ -z "$orca_agent_start" ] || orca_agent_process=$(printf '{"pid":%s,"platform":"darwin","startTime":"%s"}' "$ORCA_HOOK_AGENT_PID" "$orca_agent_start")
+  fi ;;
+esac
 if [ -n "$ORCA_AGENT_HOOK_ENDPOINT" ] && [ -r "$ORCA_AGENT_HOOK_ENDPOINT" ]; then
   unset ORCA_AGENT_HOOK_TRANSPORT
   . "$ORCA_AGENT_HOOK_ENDPOINT" 2>/dev/null || :
@@ -52,6 +66,7 @@ if [ "${ORCA_AGENT_HOOK_TRANSPORT:-}" = "raw-json-v1" ] && command -v base64 >/d
     -H "X-Orca-Agent-Hook-Token: ${ORCA_AGENT_HOOK_TOKEN}" \
     -H "X-Orca-Agent-Hook-Meta-Encoding: base64" \
     -H "X-Orca-Agent-Hook-Meta: ${orca_hook_metadata}" \
+    -H "X-Orca-Agent-Process: ${orca_agent_process:-}" \
     --data-binary @-
 else
   printf '%s' "$payload" | curl -sS -X POST "http://127.0.0.1:${ORCA_AGENT_HOOK_PORT}/hook/claude" \
@@ -65,6 +80,7 @@ else
     --data-urlencode "worktreeId=${ORCA_WORKTREE_ID}" \
     --data-urlencode "env=${ORCA_AGENT_HOOK_ENV}" \
     --data-urlencode "version=${ORCA_AGENT_HOOK_VERSION}" \
+    --data-urlencode "agentProcess=${orca_agent_process:-}" \
     --data-urlencode "payload@-"
 fi >/dev/null 2>&1 || spool_hook_event
 exit 0

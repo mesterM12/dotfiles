@@ -1,16 +1,24 @@
 tap "anomalyco/tap", trusted: true
 tap "mongodb/brew", trusted: true
+tap "osrf/simulation", trusted: true
 
 brew "cbonsai"
+brew "ccache"
+brew "cmake"
 brew "coreutils"
 brew "dnscrypt-proxy"
 brew "icu4c@78"
-brew "ffmpeg-full", link: true
+brew "ffmpeg-full"
+brew "gstreamer"
 brew "gnu-tar"
 brew "imagemagick-full", link: true
 brew "knot"
 brew "mise"
+brew "ninja"
 brew "nmap"
+brew "opencv"
+brew "pybind11"
+brew "osrf/simulation/gz-harmonic"
 brew "pigz"
 brew "pkgconf"
 brew "poppler"
@@ -38,5 +46,3 @@ cask "vlc"
 cask "yaak"
 cask "zed"
 cask "zen"
-
-npm "corepack"

@@ -1,3 +1,11 @@
+mise() {
+  if [[ $1 == upgrade || $1 == up ]]; then
+    command mise "$@" --exclude 'npm:@bitwarden/cli'
+  else
+    command mise "$@"
+  fi
+}
+
 ports() {
   if [[ -n "$1" ]]; then
     lsof -i :"$1" -P -n \

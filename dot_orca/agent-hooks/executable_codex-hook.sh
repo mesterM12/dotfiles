@@ -21,7 +21,7 @@ spool_hook_event() {
   spool_now=$(date +%s 2>/dev/null || printf 0)
   spool_now=$((spool_now * 1000))
   spool_json_escape() { printf %s "$1" | sed 's/\\/\\\\/g; s/"/\\"/g; s/[[:cntrl:]]/ /g'; }
-  { printf '\n{"paneKey":"%s","tabId":"%s","worktreeId":"%s","env":"%s","version":"%s","launchToken":"%s","source":"%s","receivedAt":%s,"payload":%s}\n' "$(spool_json_escape "${ORCA_PANE_KEY:-}")" "$(spool_json_escape "${ORCA_TAB_ID:-}")" "$(spool_json_escape "${ORCA_WORKTREE_ID:-}")" "$(spool_json_escape "${ORCA_AGENT_HOOK_ENV:-}")" "$(spool_json_escape "${ORCA_AGENT_HOOK_VERSION:-}")" "$(spool_json_escape "${ORCA_AGENT_LAUNCH_TOKEN:-}")" "$(spool_json_escape "codex")" "$spool_now" "$payload"; } >> "$spool_file" 2>/dev/null || :
+  { printf '\n{"paneKey":"%s","tabId":"%s","worktreeId":"%s","env":"%s","version":"%s","launchToken":"%s","source":"%s","receivedAt":%s,"agentProcess":"%s","payload":%s}\n' "$(spool_json_escape "${ORCA_PANE_KEY:-}")" "$(spool_json_escape "${ORCA_TAB_ID:-}")" "$(spool_json_escape "${ORCA_WORKTREE_ID:-}")" "$(spool_json_escape "${ORCA_AGENT_HOOK_ENV:-}")" "$(spool_json_escape "${ORCA_AGENT_HOOK_VERSION:-}")" "$(spool_json_escape "${ORCA_AGENT_LAUNCH_TOKEN:-}")" "$(spool_json_escape "codex")" "$spool_now" "$(spool_json_escape "${orca_agent_process:-}")" "$payload"; } >> "$spool_file" 2>/dev/null || :
   chmod 600 "$spool_file" 2>/dev/null || :
 }
 load_hook_endpoint() {
@@ -67,6 +67,7 @@ post_codex_hook() {
         -H "X-Orca-Agent-Hook-Token: ${ORCA_AGENT_HOOK_TOKEN}" \
         -H "X-Orca-Agent-Hook-Meta-Encoding: base64" \
         -H "X-Orca-Agent-Hook-Meta: ${orca_hook_metadata}" \
+        -H "X-Orca-Agent-Process: ${orca_agent_process:-}" \
         --data-binary @-
   else
     printf '%s' "$payload" | "$curl_bin" -sS -X POST "http://127.0.0.1:${ORCA_AGENT_HOOK_PORT}/hook/codex" \
@@ -80,6 +81,7 @@ post_codex_hook() {
         --data-urlencode "worktreeId=${ORCA_WORKTREE_ID}" \
         --data-urlencode "env=${ORCA_AGENT_HOOK_ENV}" \
         --data-urlencode "version=${ORCA_AGENT_HOOK_VERSION}" \
+        --data-urlencode "agentProcess=${orca_agent_process:-}" \
         --data-urlencode "payload@-"
   fi
 }
